@@ -1,66 +1,71 @@
-//WHEN DOING EVENT LISTENER NEED TO ADD CLICK EVENT ON BUTTON FOR SEARCH AND KEYPRESS ON INPUT
-
-//EXAMPLE I SAW THAT I CAN USE AS OUTLINE BUT MAKE BETTER https://codepen.io/nivrel/full/odYeOM/
-
-
 $(document).ready(function(){
-  //GET JSON DATA ON CLICK
 
+  //CLICK EVENT THAT CALLS FUNCTION
   $('#search-button').on('click', function(){
+    clearResults();
+    displaySearch();
+});
 
-      let url, searchEntry, link, text, textString, item;
+//KEYPRESS EVENT THAT CALLS FUNCTION
+$('#search').keypress(function(event){
+  if(event.keycode === 13 || event.which === 13){
+    clearResults();
+    displaySearch();
+  }
+});
 
-    searchEntry = document.getElementById('search').value;
+//FUNCTION THAT GETS AND DISPLAYS DATA, USED TO CALL IN CLICK AND KEYPRESS EVENT ABOVE
+ function displaySearch (){
+   let url, searchEntry, link, linkString, text, textString, item;
 
-    //WILL HAVE TO FIGURE OUT HOW TO DEAL WITH SPACES, USE REPLACE???
-    url = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + searchEntry + '&format=json&origin=*';
-    console.log(url);
+ searchEntry = document.getElementById('search').value;
 
-    //Display "Show search results for:..."
-    document.getElementById('results').innerText = `search reults for: ${searchEntry}`;
+ url = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + searchEntry + '&format=json&origin=*';
 
-    //Display text
+ //Display "Show search results for:..."
+ document.getElementById('results').innerText = `search reults for: ${searchEntry}`;
 
-    //item = document.getElementsByTagName('li');
+ $.getJSON(url, function(json){
+   //NEED TO INSERT link and text INTO HTML SO TEXT IS CLICKABLE
 
+   //Display text and link within text
+   link = (json[3]);
+   text = (json[2]);
 
-    //Put link into text
+   //TEXT******
 
-    //document.getElementById('first').innerText = text;
-    //document.getElementById('firsta')
+   for (let i = 0; i < text.length; i++) {
+     textString = JSON.stringify(text[i]);
+     textString = textString.substr(0, 98) + '...';
 
-    $.getJSON(url, function(json){
-      //item = document.getElementsByTagName('li');
-      //DO SOMETHING WITH DATA
-      //NEED TO INSERT link and text INTO HTML SO TEXT IS CLICKABLE
-      link = (json[3]);
-      text = (json[2]);
-      textString = JSON.stringify(text[0]);
+     let newLi = document.createElement('li');
+     let newLiContent = document.createTextNode(textString);
+     newLi.appendChild(newLiContent);
 
-      console.log(textString);
+     let list = document.getElementById('list');
+     if (textString !== '""...') {
+       list.insertBefore(newLi, list.childNodes[text.length])
+   }
 
-      //WOULD LIKE TO GET SEARCH RETURN TO STOP AFTER X WORDS, EASIER TO STYLE, LOOKS BETTER/MORE CONSISTENT
-      document.getElementById('first').innerText = textString;
-
-      //TRYING TO USE FOREACH TO PUT SEARCH INTO UL TO DISPLAY ON SCREEN
-      text.forEach(function(val, index){
-        //console.log(val);
-        console.log(index);
-
-      });
-
-      //item.innerText
-    });
-  });
-
-  //AJAX REQUEST
+//WORKING ON THIS PART, CANT FIGURE OUT HOW TO GET HREF INTO <A> WITH JAVASCRIPT
+   //Put link into text***************
+   linkString = JSON.stringify(link[i]);
+   let newA = document.createElement('a');
+   let newAContent = document.createTextNode(linkString);
+   newA.appendChild(newAContent);
+   list.insertBefore(newA, list.childNodes[text.length])
+  }
 
 
-  //should also try with backticks, once it is working
+ });
+}
 
-
-
-  //NEED TO ADD EVENT LISTENER, FOR KEYPRESS AND CLICK, THEN USE THAT DATA TO PUT INTO URL.
-  //TEST EVENT LISTENER WITH CONSOLE.LOG
+      function clearResults(){
+        let list = document.getElementById('list');
+        while (list.firstChild) {
+          list.removeChild(list.firstChild);
+        }
+      }
 
 });
+
