@@ -21,45 +21,53 @@ $('#search').keypress(function(event){
  searchEntry = document.getElementById('search').value;
 
  url = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + searchEntry + '&format=json&origin=*';
+ console.log(url);
 
  //Display "Show search results for:..."
  document.getElementById('results').innerText = `search reults for: ${searchEntry}`;
 
  $.getJSON(url, function(json){
-   //NEED TO INSERT link and text INTO HTML SO TEXT IS CLICKABLE
 
-   //Display text and link within text
+   //Text and link JSON data
    link = (json[3]);
    text = (json[2]);
 
-   //TEXT******
-
    for (let i = 0; i < text.length; i++) {
-     textString = JSON.stringify(text[i]);
-     textString = textString.substr(0, 98) + '...';
+//Get text string into proper format
+   textString = JSON.stringify(text[i]);
+   textString = textString.split('');
+   textString.pop();
+   textString.shift();
+   textString = textString.toString();
+   textString = textString.replace(/,/gi, '');
+   textString = textString.substr(0, 90) + '...';
 
-     let newLi = document.createElement('li');
-     let newLiContent = document.createTextNode(textString);
-     newLi.appendChild(newLiContent);
+//Get link string into proper format
+   linkString = JSON.stringify(link[i]);
+   linkString = linkString.split('');
+   linkString.pop();
+   linkString.shift();
+   linkString = linkString.toString();
+   linkString = linkString.replace(/,/gi, '');
 
-     let list = document.getElementById('list');
-     if (textString !== '""...') {
-       list.insertBefore(newLi, list.childNodes[text.length])
+//Add <a> anchor tags to list, Styling done in CSS
+   let list = document.getElementById('list');
+   let newA = document.createElement('a');
+   newA.setAttribute('href', linkString);
+   newA.setAttribute('target', '_blank')
+   newA.innerText = textString;
+
+   //Makes sure if text string value is only ... that it wont get displayed
+   if (textString !== '...') {
+     list.appendChild(newA);
    }
 
-//WORKING ON THIS PART, CANT FIGURE OUT HOW TO GET HREF INTO <A> WITH JAVASCRIPT
-   //Put link into text***************
-   linkString = JSON.stringify(link[i]);
-   let newA = document.createElement('a');
-   let newAContent = document.createTextNode(linkString);
-   newA.appendChild(newAContent);
-   list.insertBefore(newA, list.childNodes[text.length])
-  }
-
+}
 
  });
 }
 
+  //Function to clear old search results before displaying new
       function clearResults(){
         let list = document.getElementById('list');
         while (list.firstChild) {
@@ -68,4 +76,5 @@ $('#search').keypress(function(event){
       }
 
 });
+
 
