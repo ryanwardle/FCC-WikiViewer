@@ -19,7 +19,7 @@ body{
 h1{
   font-size: 20px;
   text-transform: uppercase;
-  margin-top: 150px;
+  margin-top: 130px;
   font-weight: bold;
 }
 
@@ -66,9 +66,11 @@ button{
 #search-button:hover,
 #search-button:active{
   background-color: #c0b823;
+  transition-delay: .5s;
 }
 
 /*RESULTS HEADER*/
+
 h2{
   font-size: 17px;
   text-transform: uppercase;
@@ -76,13 +78,25 @@ h2{
 }
 
 /*REULTS DIV*/
+
 .list-div{
   text-align: center;
 }
 
 /*SEARCH LIST*/
 
-/*NOT WORKING, NEED TO FIGURE OUT HOW TO STYLE DYNAMICLLY ADDEDE ELEMENTS*/
-#list li{
+#list a{
+  display: block;
   text-decoration: none;
+  color: #c0b823;
+  line-height: 30px;
+  font-size: 17px;
+  margin: 2px;
+  transition-duration: 1s;
 }
+
+#list a:hover{
+  color: #dcd0c0;
+  transition-delay: .5s;
+}
+
