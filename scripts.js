@@ -4,6 +4,7 @@ $(document).ready(function(){
   $('#search-button').on('click', function(){
     clearResults();
     displaySearch();
+    searchFadeIn();
 });
 
 //KEYPRESS EVENT THAT CALLS FUNCTION
@@ -11,6 +12,7 @@ $('#search').keypress(function(event){
   if(event.keycode === 13 || event.which === 13){
     clearResults();
     displaySearch();
+    searchFadeIn();
   }
 });
 
@@ -75,6 +77,12 @@ $('#search').keypress(function(event){
         }
       }
 
+      function searchFadeIn(){
+        $('#list').addClass('animated fadeIn');
+        var wait = setTimeout(function(){
+            $('#list').removeClass('animated fadeIn');
+          }, 2000);
+      }
 });
 
 
