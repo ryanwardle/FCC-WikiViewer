@@ -1,0 +1,42 @@
+@media only screen and (max-width: 1200px){
+
+  h1{
+    font-size: 18px;
+  }
+
+  button{
+    width: 195px;
+  }
+
+  #search{
+    width: 250px;
+  }
+}
+
+@media only screen and (max-width: 1023px){
+  h1{
+    font-size: 14px;
+  }
+
+  button{
+    width: 150px;
+  }
+
+  #search{
+    width: 200px;
+  }
+}
+
+@media only screen and (max-width: 767px){
+  .search-div,
+  .header-div,
+  .button-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #list a{
+    padding-bottom: 20px;
+  }
+}
