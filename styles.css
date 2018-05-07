@@ -33,7 +33,6 @@ h1{
 
 
 /*SEARCH INPUT************/
-
 #search{
   margin-top: 20px;
   border-radius: 15px;
@@ -99,4 +98,5 @@ h2{
   color: #dcd0c0;
   transition-delay: .5s;
 }
+
 
